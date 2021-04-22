@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="en ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Update User</title>
+
+    <style>
+        * {
+            outline: none;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            width: fit-content;
+            padding: 20px;
+            justify-content: center;
+            margin: auto;
+        }
+
+        label {
+            margin: 10px;
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+        }
+
+        input, select {
+            border-radius: 10px;
+            padding: 6px;
+            text-align: center;
+        }
+
+        input[type="submit"] {
+            background-color: black;
+            color: white;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+<form th:method="PATCH" th:action="@{/admin/users/{id}(id = ${user.getId()})}" th:object="${user}">
+    <label>
+        name
+        <input type="text" name="name" th:field="*{name}" th:value="${user.getName()}">
+    </label>
+    <label>
+        lastName
+        <input type="text" name="lastName" th:field="*{lastName}" th:value="${user.getLastName()}">
+    </label>
+    <label>
+        age
+        <input type="number" name="age" th:field="*{age}" th:value="${user.getAge()}">
+    </label>
+    <label>
+        email
+        <input type="email" name="email" th:field="*{email}" th:value="${user.getEmail()}">
+    </label>
+    <label>
+        password
+        <input name="password" type="text" th:field="*{pass}">
+    </label>
+    <label>
+        role
+        <select th:field="*{roles}" name="roles" multiple size="2" >
+            <option th:each="role : ${allRoles}"
+                    th:value="${role.getId()}"
+                    th:text="${role.getName()}"
+                    th:checked="${userRoles.contains(role)}"
+            >
+
+            </option>
+        </select>
+    </label>
+    <input type="submit" value="update user">
+
+</form>
+</body>
+</html>

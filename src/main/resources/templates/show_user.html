@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      lang="en ru">
+<head>
+    <meta charset="UTF-8">
+    <title>User</title>
+    <style>
+        * {
+            outline: none;
+        }
+
+        .card {
+            width: fit-content;
+            min-width: 200px;
+            margin: 10px auto;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 2px;
+        }
+
+        a {
+            text-decoration: none;
+            padding: 5px;
+            background-color: black;
+            color: white;
+            border-radius: 7px;
+            font-weight: bold;
+            width: fit-content;
+            margin: 10px auto;
+            display: block;
+
+        }
+    </style>
+</head>
+<body>
+<h1>User</h1>
+<div class="card">
+    <p th:text="'id: ' + ${user.getId()}"></p>
+    <p th:text="'name: ' + ${user.getName()}"></p>
+    <p th:text="'lastName: ' + ${user.getLastName()}"></p>
+    <p th:text="'age: ' + ${user.getAge()}"></p>
+    <p th:text="'email: ' + ${user.getEmail()}"></p>
+    <p th:text="${text}"></p>
+</div>
+
+
+<a th:href="@{/logout}">logout</a>
+
+<a th:href="@{/admin/}">back to list users</a>
+
+</body>
+</html>
