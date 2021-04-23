@@ -1,5 +1,6 @@
 package com.oricadu.springboot.crud_spring_boot.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
@@ -9,8 +10,9 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "roles")
-@Data//ломбок аннотация: генерирует геттеры, сеттеры, иквалс, хеш код методы
+@Data//ломбок аннотация: генерирует геттеры, сеттеры, equals, hashCode методы
 @NoArgsConstructor//ломбок аннотация: конструктор без аргуметов
+@AllArgsConstructor //ломбок аннотация: конструктор cо всеми аргументами
 public class Role implements GrantedAuthority {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,18 +20,13 @@ public class Role implements GrantedAuthority {
 
     private String roleName;
 
-    public Role(Long id, String roleName) {
-        this.id = id;
-        this.roleName = roleName;
-    }
-
     public String getName() {
         return roleName.replaceAll("ROLE_", "");
     }
 
     @Override
     public String getAuthority() {
-        return null;
+        return roleName;
     }
 
     @Override

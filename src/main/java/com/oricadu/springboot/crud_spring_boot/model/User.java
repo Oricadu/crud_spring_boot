@@ -5,6 +5,7 @@
 
 package com.oricadu.springboot.crud_spring_boot.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
@@ -15,59 +16,35 @@ import java.util.Collection;
 import java.util.List;
 
 @Entity
-@Table(
-        name = "users"
-)
+@Table(name = "users")
 @Data//ломбок аннотация: генерирует геттеры, сеттеры, иквалс, хеш код методы
 @NoArgsConstructor//ломбок аннотация: конструктор без аргуметов
+@AllArgsConstructor //ломбок аннотация: конструктор cо всеми аргументами
 public class User implements UserDetails {
     @Id
-    @GeneratedValue(
-            strategy = GenerationType.IDENTITY
-    )
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(
-            name = "name"
-    )
+
+    @Column(name = "name")
     private String name;
-    @Column(
-            name = "lastName"
-    )
+
+    @Column(name = "last_name")
     private String lastName;
-    @Column(
-            name = "age"
-    )
+
+    @Column(name = "age")
     private byte age;
-    @Column(
-            name = "email"
-    )
+
+    @Column(name = "email")
     private String email;
 
     @Column(name = "password")
     private String pass;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private List<Role> roles;
-
-
-    public User(Long id,
-                String name,
-                String lastName,
-                byte age,
-                String email,
-                String pass,
-                List<Role> roles) {
-        this.id = id;
-        this.name = name;
-        this.lastName = lastName;
-        this.age = age;
-        this.email = email;
-        this.pass = pass;
-        this.roles = roles;
-    }
 
 
     @Override

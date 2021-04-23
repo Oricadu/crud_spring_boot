@@ -1,7 +1,8 @@
-package com.oricadu.springboot.crud_spring_boot.model;
+package com.oricadu.springboot.crud_spring_boot.converter;
 
 
 import com.oricadu.springboot.crud_spring_boot.dao.RoleDao;
+import com.oricadu.springboot.crud_spring_boot.model.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
