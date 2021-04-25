@@ -2,45 +2,40 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
       lang="en ru">
 <head>
-    <meta charset="UTF-8">
+    <div th:replace="fragments/header :: head"/>
     <title>User</title>
     <style>
-        * {
-            outline: none;
-        }
 
-        .card {
-            width: fit-content;
-            min-width: 200px;
-            margin: 10px auto;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 2px;
-        }
-
-        a {
-            text-decoration: none;
-            padding: 5px;
-            background-color: black;
-            color: white;
-            border-radius: 7px;
-            font-weight: bold;
-            width: fit-content;
-            margin: 10px auto;
-            display: block;
-
-        }
     </style>
 </head>
 <body>
 <h1>User</h1>
-<div class="card">
-    <p th:text="'id: ' + ${user.getId()}"></p>
-    <p th:text="'name: ' + ${user.getName()}"></p>
-    <p th:text="'lastName: ' + ${user.getLastName()}"></p>
-    <p th:text="'age: ' + ${user.getAge()}"></p>
-    <p th:text="'email: ' + ${user.getEmail()}"></p>
-    <p th:text="${text}"></p>
+<div th:fragment="user_info">
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <tr>
+                <th>ID</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Age</th>
+                <th>Email</th>
+                <th>Role</th>
+            </tr>
+            <th:block>
+                <tr>
+                    <td th:text="${user.getId()}"></td>
+                    <td th:text="${user.getName()}"></td>
+                    <td th:text="${user.getLastName()}"></td>
+                    <td th:text="${user.getAge()}"></td>
+                    <td th:text="${user.getEmail()}"></td>
+                    <td>
+                        <p th:each="role : ${user.getRoles()}" th:text="${role.getName()}"></p>
+                    </td>
+                </tr>
+            </th:block>
+        </table>
+    </div>
+
 </div>
 
 

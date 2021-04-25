@@ -9,6 +9,7 @@ package com.oricadu.springboot.crud_spring_boot.service;
 import com.oricadu.springboot.crud_spring_boot.dao.UserDao;
 import com.oricadu.springboot.crud_spring_boot.model.Role;
 import com.oricadu.springboot.crud_spring_boot.model.User;
+import com.oricadu.springboot.crud_spring_boot.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -24,7 +25,7 @@ import java.util.stream.Collectors;
 @Service
 public class UserServiceImpl implements UserService {
     @Autowired
-    UserDao userDao;
+    UserRepository userRepository;
 
     public UserServiceImpl() {
     }
@@ -32,37 +33,40 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void add(User user) {
-        userDao.add(user);
+        userRepository.save(user);
     }
 
     @Override
     @Transactional
     public User get(long id) {
-        return userDao.get(id);
+        return userRepository.findById(id).get();
+
     }
 
     @Override
     @Transactional
     public User remove(long id) {
-        return userDao.remove(id);
+        User user = get(id);
+        userRepository.delete(user);
+        return user;
     }
 
     @Override
     @Transactional
     public User update(long id, User user) {
-        return userDao.update(id, user);
+        return userRepository.save(user);
     }
 
     @Override
     @Transactional
     public List<User> getUsers() {
-        return userDao.getUsers();
+        return userRepository.findAll();
     }
 
     @Override
     @Transactional
     public User getUserByUsername(String username) {
-        return userDao.getUserByUsername(username);
+        return userRepository.findUserByEmail(username);
     }
 
 }

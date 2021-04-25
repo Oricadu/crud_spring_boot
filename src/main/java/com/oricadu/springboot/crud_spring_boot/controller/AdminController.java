@@ -10,7 +10,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
+import java.security.Principal;
 import java.util.List;
 
 @Controller
@@ -29,18 +31,27 @@ public class AdminController {
     }
 
     @GetMapping({"/"})
-    public String printUsers(ModelMap model) {
-        model.addAttribute("users", userService.getUsers());
-        return "users";
+    public ModelAndView printUsers(Principal principal) {
+        User addUser = new User();
+        ModelAndView modelAndView = new ModelAndView("users");
+        modelAndView.addObject("users", userService.getUsers())
+                .addObject("user", userService.getUserByUsername(principal.getName()))
+                .addObject("allRoles", roleService.getListRoles())
+                .addObject("modified_user", addUser);
+//                .addObject("forward_request", this.edit());
+        return modelAndView;
+
     }
 
     @GetMapping({"/{id}/edit_user"})
-    public String edit(@PathVariable("id") long id, ModelMap model) {
+    public ModelAndView edit(@PathVariable("id") long id) {
         User user = userService.get(id);
-        model.addAttribute("user", user);
-        model.addAttribute("userRoles", user.getRoles());
-        model.addAttribute("allRoles", roleService.getListRoles());
-        return "edit_user";
+
+        ModelAndView modelAndView = new ModelAndView("edit_user");
+        modelAndView.addObject("user", user)
+                .addObject("userRoles", user.getRoles());
+        return modelAndView;
+
     }
 
     @PostMapping({"/users/{id}"})
@@ -53,16 +64,15 @@ public class AdminController {
     @GetMapping({"/{id}/remove_user"})
     public String removeUser(@PathVariable("id") long id, ModelMap model) {
         model.addAttribute("user", userService.remove(id));
-        model.addAttribute("text", "removed");
-        return "show_user";
+        return "redirect:/admin/";
     }
 
 
     @GetMapping({"/add_user"})
-    public String add(@ModelAttribute("user") User user,
-                      ModelMap model) {
-        model.addAttribute("allRoles", roleService.getListRoles());
-        return "add_user";
+    public ModelAndView add(@ModelAttribute("modified_user") User user) {
+        ModelAndView modelAndView = new ModelAndView("/add_user");
+        modelAndView.addObject("allRoles", roleService.getListRoles());
+        return modelAndView;
     }
 
 
@@ -88,4 +98,6 @@ public class AdminController {
         model.addAttribute(userService.getUserByUsername("email@mail.ru"));
         return "show_user";
     }
+
+
 }

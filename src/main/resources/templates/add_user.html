@@ -2,86 +2,62 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="en ru">
 
 <head>
-    <meta charset="UTF-8">
+    <div th:replace="fragments/header :: head"/>
     <title>Create user</title>
 
-    <style>
-        *{
-            outline: none;
-        }
 
-        form {
-            display: flex;
-            flex-direction: column;
-            width: fit-content;
-            padding: 20px;
-            justify-content: center;
-            margin: auto;
-        }
-
-        label {
-            margin: 10px;
-            display: flex;
-            flex-direction: column;
-            text-align: center;
-        }
-
-        input, select {
-            border-radius: 10px;
-            padding: 6px;
-            text-align: center;
-        }
-
-        input[type="submit"] {
-            background-color: black;
-            color: white;
-            font-weight: bold;
-        }
-    </style>
 </head>
+
 <body>
-    <form th:method="POST" th:action="@{/admin/users}" th:object="${user}">
-        <label>
-            name
-            <input name="name" type="text" th:field="*{name}">
-        </label>
-        <label>
-            lastName
-            <input name="lastName" type="text" th:field="*{lastName}">
-        </label>
-        <label>
-            age
-            <input name="age" type="number" th:field="*{age}">
-        </label>
-        <label>
-            email
-            <input name="email" type="email" th:field="*{email}">
-        </label>
-        <label>
-            password
-            <input name="password" type="password" th:field="*{pass}">
-        </label>
-        <label>
-            roles
-            <ul>
-                <!--<li th:each="role : ${allRoles}">
-                    <input type="checkbox" th:field="*{roles}"
-                           th:value="${role.getId()}"/>
-                    <label th:for="${#ids.prev('roles')}"
-                           th:text="${role.getName()}"></label>
-                </li>-->
 
-            </ul>
-            <select th:field="*{roles}"
-                    multiple>
-                <option th:each="role : ${allRoles}"
-                        th:text="${role.getName()}"
-                        th:value="${role.getId()}"></option>
-            </select>
-        </label>
-        <input type="submit" value="add user">
+    <div class="container-fluid" th:fragment="user_form">
+        <div class="row justify-content-md-center">
+            <div class="col-md-3 m-3" th:switch="${modified_user}">
+                <form th:method="POST" th:action="@{/admin/users}" th:object="${modified_user}">
+                    <div class="form-group">
+                        <div class="form-group text-center font-weight-bold">
+                            <label for="inputName">First name</label>
+                            <input id="inputName" class="form-control" name="name" type="text" th:field="*{name}">
+                        </div>
+
+                        <div class="form-group text-center font-weight-bold">
+                            <label for="inputLastName">Last name</label>
+                            <input id="inputLastName" class="form-control" name="lastName" type="text" th:field="*{lastName}">
+                        </div>
+
+                        <div class="form-group text-center font-weight-bold">
+                            <label for="inputAge">Age</label>
+                            <input id="inputAge" class="form-control" name="age" type="number" th:field="*{age}">
+
+                        </div>
+
+                        <div class="form-group text-center font-weight-bold">
+                            <label for="inputEmail">Email</label>
+                            <input id="inputEmail" class="form-control" name="email" type="email" th:field="*{email}">
+
+                        </div>
+
+                        <div class="form-group text-center font-weight-bold">
+                            <label for="inputPassword">Password</label>
+                            <input id="inputPassword" class="form-control" name="password" type="password" th:field="*{pass}">
+
+                        </div>
+
+                        <div class="form-group text-center font-weight-bold">
+                            <label for="inputRoles">Roles</label>
+                            <select id="inputRoles" class="form-control" th:field="*{roles}" multiple size="2">
+                                <option th:each="role : ${allRoles}" th:text="${role.getName()}" th:value="${role.getId()}"></option>
+                            </select>
+                        </div>
 
 
-    </form>
+                        <input class="btn btn-success form-control" type="submit" value="Add new user">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
 </body>
-</html>
+
+</html> 
