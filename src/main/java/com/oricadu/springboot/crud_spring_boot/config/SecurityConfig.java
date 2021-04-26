@@ -44,6 +44,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // даем доступ к форме логина всем
                 .permitAll();
 
+
         http.logout()
                 // разрешаем делать логаут всем
                 .permitAll()
@@ -59,6 +60,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 //страница аутентификаци доступна всем
                 .antMatchers("/login").anonymous()
+                .antMatchers("/rest/**").anonymous()
                 // защищенные URL
                 .antMatchers("/hello", "/admin/**").access("hasAnyRole('ADMIN')")
                 .antMatchers("/user").hasAnyRole("USER", "ADMIN")
