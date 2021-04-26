@@ -1,7 +1,6 @@
 package com.oricadu.springboot.crud_spring_boot.service;
 
 
-import com.oricadu.springboot.crud_spring_boot.dao.RoleDao;
 import com.oricadu.springboot.crud_spring_boot.model.Role;
 import com.oricadu.springboot.crud_spring_boot.repository.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;

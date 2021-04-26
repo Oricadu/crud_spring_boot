@@ -6,7 +6,6 @@
 package com.oricadu.springboot.crud_spring_boot.service;
 
 
-import com.oricadu.springboot.crud_spring_boot.dao.UserDao;
 import com.oricadu.springboot.crud_spring_boot.model.Role;
 import com.oricadu.springboot.crud_spring_boot.model.User;
 import com.oricadu.springboot.crud_spring_boot.repository.UserRepository;

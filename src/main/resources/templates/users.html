@@ -137,7 +137,7 @@
                                                                                 <div class="form-group text-center font-weight-bold">
                                                                                     <label th:for="${'update' + 'inputRoles' + userItem.getId()}">Roles</label>
                                                                                     <select th:id="${'update' + 'inputRoles' + userItem.getId()}" class="form-control" name="roles" multiple size="2">
-                                                                                        <option th:each="role : ${allRoles}" th:text="${role.getName()}" th:value="${role.getId()}"></option>
+                                                                                        <option th:each="role : ${allRoles}" th:text="${role.getName()}" th:value="${role.getId()}" th:checked="${userItem.getRoles().contains(role)}"></option>
                                                                                     </select>
                                                                                 </div>
                                                                             </div>
