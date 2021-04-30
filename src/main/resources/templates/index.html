@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      lang="en ru">
+<head>
+    <div th:replace="fragments/header :: head"/>
+    <title>index</title>
+</head>
+<body>
+
+    <nav class="navbar navbar-dark bg-dark sticky-top">
+        <div class="navbar-header ">
+
+            <span class="text-white font-weight-bold" sec:authentication="name"></span>
+            <span class="text-white">with roles:</span>
+            <span class="text-white text-uppercase" sec:authorize="hasRole('ADMIN')">ADMIN</span>
+            <span class="text-white text-uppercase" sec:authorize="hasRole('USER')">USER</span>
+        </div>
+
+        <div class="nav navbar">
+            <a class="navbar-text logout" th:href="@{/logout}"><small>Logout</small></a>
+        </div>
+    </nav>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-2 mt-3">
+                <div class="nav flex-column nav-pills" role="tablist" aria-orientation="vertical">
+                    <a sec:authorize="hasRole('ADMIN')" class="nav-link active"
+                       data-toggle="pill" href="#pill_admin" role="tab" aria-selected="true">Admin</a>
+                    <a id="nav_user" class="nav-link" th:attr="data-toggle='pill', data-roles=${#authentication.authorities}"
+                       href="#pill_user" role="tab" aria-selected="false">User</a>
+
+                </div>
+            </div>
+            <div class="col-10 bg-light">
+                <div class="tab-content mt-3">
+                    <div sec:authorize="hasRole('ADMIN')" class="tab-pane fade show active" id="pill_admin" role="tabpanel">
+                        <h1>Admin panel</h1>
+                        <ul class="nav nav-tabs">
+                            <li class="nav-item">
+                                <a id="nav_users_table" class="nav-link active" href="#tab_users" data-toggle="tab" role="tab">Users table</a>
+                            </li>
+                            <li class="nav-item">
+                                <a id="nav_new_user" class="nav-link" href="#tab_new_user" data-toggle="tab" role="tab">New user</a>
+                            </li>
+                        </ul>
+
+
+                        <div class="tab-content">
+                            <div class="tab-pane fade show active" id="tab_users" role="tabpanel">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h3>All users</h3>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table class="table table-striped" id="users_table">
+
+                                            </table>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <!-------------------------------new user-------------------------------->
+                            <div class="tab-pane fade" id="tab_new_user" role="tabpanel">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h3>Add new user</h3>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="container-fluid">
+                                            <div class="row justify-content-md-center">
+                                                <div class="col-md-4 m-3">
+                                                    <div id="add_user_form">
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                    <div class="tab-pane fade" id="pill_user" role="tabpanel">
+                        <h1>User information-page</h1>
+                        <div class="card">
+                            <div class="card-header">
+                                <h3>About user</h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-striped" id="user_information">
+
+                                    </table>
+                                </div>
+
+
+                            </div>
+                        </div>
+
+                    </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="modal fade" id="updateForm" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Modal title</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="container-fluid">
+                        <div class="row justify-content-md-center">
+                            <div class="col-md-7 m-3" id="modify_user">
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+        <script type="text/javascript" th:src="@{/js/main.js}"></script>
+
+    </footer>
+</body>
+</html>
