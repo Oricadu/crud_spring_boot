@@ -12,17 +12,16 @@ if (!($("#nav_user").data("roles").includes('ADMIN'))) {
 function getRolesList() {
     $.ajax({
         type: "GET",
-        url: "/admin/rest/roles/", // адрес, на который будет отправлен запрос
+        url: "/admin/rest/roles/",
         contentType: "application/json",
         dataType: 'json',
-        success: function(roles) { // если запрос успешен вызываем функцию
+        success: function(roles) {
             rolesList = roles;
             loadUsers();
         }});
 }
 
 function loadUsers() {
-    // console.log(rolesList);
 
     $.ajax({
         type: "GET",
@@ -88,7 +87,6 @@ function addOnClickListenerToButtons(rolesList) {
     });
 
     $("#nav_new_user").on('click', function (e) {
-        // console.log("jfsl");
         createForm("POST");
 
     });
@@ -104,11 +102,10 @@ function createForm(method, id=0) {
     let intersection =[];
     $.ajax({
         type: "GET",
-        url: "/admin/rest/users/" + id, // адрес, на который будет отправлен запрос
+        url: "/admin/rest/users/" + id,
         contentType: "application/json",
         dataType: 'json',
-        success: function(user){ // если запрос успешен вызываем функцию
-            // console.log(user);
+        success: function(user){
             let html = `<form id="form" method=${method} action="/admin/rest/users/${user.id}">`;
             if (method !== "POST") {
                 html += `<div class="modal-body">`;
@@ -129,15 +126,9 @@ function createForm(method, id=0) {
                                     <label for="${'input_' + field + user.id}">${field}</label>
                                     <select id="${'input_' + field + user.id}" class="form-control" name="roles" multiple size="2">
                                         ${rolesList.reduce(function (str, role) {
-                                            
-                        if (intersection.includes(role.id)) {
 
-                            return str + `<option value='{"id":${role.id}, "roleName":"${role.roleName}"}' selected>${role.name}</option>`;
-                        } else {
-
-                            console.log(role);
-                            return str + `<option value='{"id":${role.id}, "roleName":"${role.roleName}"}'>${role.name}</option>`;
-                        }
+                                            return str + `<option value='${JSON.stringify(role)}' 
+                                                ${(intersection.includes(role.id)) ? 'selected' : ''}>${role.name}</option>`
                     }, "")}
                                     </select>
                                 </div>
@@ -179,7 +170,7 @@ function createForm(method, id=0) {
                 $('#form_group_pass' + user.id).remove();
                 $("#updateForm input").each(function () {
                     $(this).prop('disabled', true);
-                    console.log(this);
+                    // console.log(this);
 
                 });
 
@@ -211,42 +202,16 @@ function createForm(method, id=0) {
     $(document).on('submit',"form", (function(e) {
         e.preventDefault();
 
-        var form = $(this);
+        let form = $(this);
 
         let method = form.attr('method');
 
-        /*$.ajax({
-            url: form.attr('action'), // ссылка куда отправляем данные
-            method: method,
-            // dataType: 'json',
-            contentType: false,
-            processData: false,
-            data: formData,
-            success: function(data){
-                console.log(method);
 
-                if (method === "POST") {
-                    successCreate();
-                } else if (method === "PUT") {
-                    successEdit();
-                }   else if (method === "DELETE") {
-                    successDelete();
-                }
-                // $("#nav_users_table").addClass("active");
-                //$('#nav_users_table').tab('show');
-                // var someTabTriggerEl = $('#nav_users_table');
-                // var tab = new bootstrap.Tab(someTabTriggerEl);
-                // loadUsers();
+        let inputs = $(this).find('.form-control');
 
-                // tab.show();
-            }
-        });*/
-
-        var inputs = $(this).find('.form-control');
-
-        var userData = {};
-        var role = {};
-        var arrRoles = [];
+        let userData = {};
+        let role = {};
+        let arrRoles = [];
         $.each(inputs, function (index, input){
             if ($(input).attr('name') === 'roles') {
                 $.each($(input).val(), function (index, elem) {
