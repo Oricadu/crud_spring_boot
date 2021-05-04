@@ -13,6 +13,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -25,24 +26,23 @@ public class UserServiceImpl implements UserService {
     @Autowired
     UserRepository userRepository;
 
+    @Autowired
+    private PasswordEncoder bCrypt;
+
     public UserServiceImpl() {
     }
 
     @Override
     @Transactional
     public void add(User user) {
+        user.setPass(bCrypt.encode(user.getPass()));
         userRepository.save(user);
     }
 
     @Override
     @Transactional
     public User get(long id) {
-        try {
-            return userRepository.findById(id).get();
-
-        } catch (Exception e) {
-            return null;
-        }
+        return userRepository.findById(id).orElse(null);
 
     }
 

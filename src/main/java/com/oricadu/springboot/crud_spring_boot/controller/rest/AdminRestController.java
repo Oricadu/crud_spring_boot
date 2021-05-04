@@ -25,8 +25,6 @@ public class AdminRestController {
     @Autowired
     private RoleService roleService;
 
-    @Autowired
-    private PasswordEncoder bCrypt;
 
     @GetMapping("/users")
     public ResponseEntity<List<User>> allUsers() {
@@ -63,7 +61,7 @@ public class AdminRestController {
         if (user == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        user.setPass(bCrypt.encode(user.getPass()));
+
         userService.add(user);
 
         return new ResponseEntity<>(HttpStatus.CREATED);
@@ -73,7 +71,6 @@ public class AdminRestController {
     public @ResponseBody ResponseEntity<User> updateUser(@PathVariable long id,
                                            @RequestBody User user) {
         user.setId(id);
-        user.setPass(bCrypt.encode(user.getPass()));
         if (userService.update(id, user) == null) {
             return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
         }
