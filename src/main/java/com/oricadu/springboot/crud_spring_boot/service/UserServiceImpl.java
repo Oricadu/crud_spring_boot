@@ -57,6 +57,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public User update(long id, User user) {
+        user.setPass(bCrypt.encode(user.getPass()));
         return userRepository.save(user);
     }
 
